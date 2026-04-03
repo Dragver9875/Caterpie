@@ -3,7 +3,9 @@ setup_paths();
 cfg = defaults();
 
 env = make_env(cfg);
-agent = make_agent_ppo(cfg, env);
+agentObj = make_agent_ppo(cfg, env);
+
+assignin('base','agentObj',agentObj);
 
 trainOpts = rlTrainingOptions( ...
     MaxEpisodes = cfg.maxEpisodes, ...
@@ -18,9 +20,9 @@ trainOpts = rlTrainingOptions( ...
     Plots = "training-progress" ...
     );
 
-trainingStats = train(agent, env, trainOpts);
+trainingStats = train(agentObj, env, trainOpts);
 
 stamp = datestr(now,'yyyymmdd_HHMMSS');
 save(fullfile(cfg.saveAgentDirectory, "ppo_agent_" + stamp + ".mat"), ...
-    "agent", "cfg", "trainingStats");
+    "agentObj", "cfg", "trainingStats");
 end

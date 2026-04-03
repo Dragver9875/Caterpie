@@ -1,13 +1,11 @@
-function agent = make_agent_ppo(cfg, env)
-% PPO agent for continuous 2-D action [Kp_corr, Ki_corr]
-
+function agentObj = make_agent_ppo(cfg, env)
 obsInfo = getObservationInfo(env);
 actInfo = getActionInfo(env);
 
 obsDim = cfg.obsDim;
 actDim = cfg.actDim;
 
-% ---- Actor network: shared trunk + mean/std heads ----
+% Actor network
 statePath = [
     featureInputLayer(obsDim, Normalization="none", Name="obs")
     fullyConnectedLayer(128, Name="fc1")
@@ -19,7 +17,9 @@ statePath = [
 meanPath = [
     fullyConnectedLayer(actDim, Name="mean_fc")
     tanhLayer(Name="mean_tanh")
-    scalingLayer(Name="mean_scale", Scale=(cfg.KcorrMax-cfg.KcorrMin)/2, Bias=(cfg.KcorrMax+cfg.KcorrMin)/2)
+    scalingLayer(Name="mean_scale", ...
+        Scale=(cfg.KcorrMax-cfg.KcorrMin)/2, ...
+        Bias=(cfg.KcorrMax+cfg.KcorrMin)/2)
     ];
 
 stdPath = [
@@ -37,7 +37,7 @@ actor = rlContinuousGaussianActor(actorNet, obsInfo, actInfo, ...
     ActionMeanOutputNames="mean_scale", ...
     ActionStandardDeviationOutputNames="std_softplus");
 
-% ---- Critic network ----
+% Critic network
 criticNet = [
     featureInputLayer(obsDim, Normalization="none", Name="obs")
     fullyConnectedLayer(128, Name="c_fc1")
@@ -49,17 +49,17 @@ criticNet = [
 
 critic = rlValueFunction(criticNet, obsInfo);
 
-% ---- PPO options ----
+% PPO options
 opt = rlPPOAgentOptions;
-opt.SampleTime          = cfg.Ts;
-opt.ExperienceHorizon   = 256;
-opt.MiniBatchSize       = 256;
-opt.NumEpoch            = 3;
-opt.ClipFactor          = 0.2;
-opt.EntropyLossWeight   = 0.01;
-opt.DiscountFactor      = 0.99;
+opt.SampleTime = cfg.Ts;
+opt.ExperienceHorizon = 512;
+opt.MiniBatchSize = 256;
+opt.NumEpoch = 5;
+opt.ClipFactor = 0.2;
+opt.EntropyLossWeight = 0.03;   % was lower before
+opt.DiscountFactor = 0.995;
 opt.AdvantageEstimateMethod = "gae";
-opt.GAEFactor           = 0.95;
+opt.GAEFactor = 0.97;
 
-agent = rlPPOAgent(actor, critic, opt);
+agentObj = rlPPOAgent(actor, critic, opt);
 end

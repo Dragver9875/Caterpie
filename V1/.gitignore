@@ -1,6 +1,3 @@
-# -----------------------------
-# OS / editor cruft
-# -----------------------------
 .DS_Store
 Thumbs.db
 desktop.ini
@@ -10,18 +7,12 @@ desktop.ini
 .vscode/
 .idea/
 
-# -----------------------------
-# Python (if used later for W2/W3 tooling)
-# -----------------------------
 __pycache__/
 *.py[cod]
 .venv/
 venv/
 env/
 
-# -----------------------------
-# MATLAB / Simulink generated files
-# -----------------------------
 *.asv
 *.autosave
 *.m~
@@ -38,13 +29,11 @@ simulinkcache/
 *.exp
 *.lib
 
-# MATLAB preference / session artifacts
 *.prj.bak
 *.mlsettings
 *.matlab/
 startup.m.bak
 
-# Simulink code generation / build outputs
 codegen/
 rtw/
 *_ert_rtw/
@@ -52,57 +41,36 @@ rtw/
 *_rtw/
 sfprj/
 
-# -----------------------------
-# Simulation / training outputs
-# -----------------------------
 results/
 logs/
 temp/
 tmp/
 cache/
 
-# Keep folder structure if needed
 !results/.gitkeep
 !logs/.gitkeep
 !temp/.gitkeep
 
-# -----------------------------
-# Large generated data / checkpoints
-# -----------------------------
 *.log
 *.tmp
 *.bak
 *.old
 *.orig
 
-# Saved agents / checkpoints / plots
 *.png
 *.jpg
 *.jpeg
 *.pdf
 
-# But keep source docs/assets if they are part of the repo
 !assets/**/*.pdf
 !docs/**/*.pdf
-
-# Keep model files tracked
 !models/**/*.slx
 !models/**/*.mdl
-
-# Keep MATLAB source tracked
 !matlab/**/*.m
 
-# -----------------------------
-# Workspace / runtime data
-# -----------------------------
 *.mat
-
-# Keep curated source datasets/models if intentionally committed
 !models/original/Simulink_Data.mat
 
-# -----------------------------
-# Local environment/config
-# -----------------------------
 .env
 .env.*
 local/
@@ -111,9 +79,6 @@ secrets/
 *.pem
 *.pfx
 
-# -----------------------------
-# Optional: generated exports
-# -----------------------------
 exports/
 reports/generated/
 presentations/generated/

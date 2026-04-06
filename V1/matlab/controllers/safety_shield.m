@@ -1,16 +1,16 @@
-function aSafe = safety_shield(aRaw, lastA, cfg)
-% aRaw, lastA are 2x1 vectors
-% output = [Kp_corr; Ki_corr]
+function aSafe = safety_shield(aRaw, prevA, cfg)
+aRaw  = aRaw(:);
+prevA = prevA(:);
 
-aMin = cfg.KcorrMin * ones(2,1);
-aMax = cfg.KcorrMax * ones(2,1);
+amin = cfg.KcorrMin * ones(2,1);
+amax = cfg.KcorrMax * ones(2,1);
 
-a = min(max(aRaw(:), aMin), aMax);
+a = min(max(aRaw, amin), amax);
 
-delta = a - lastA(:);
+delta = a - prevA;
 delta = min(max(delta, -cfg.dKcorrMax), cfg.dKcorrMax);
-a = lastA(:) + delta;
+a = prevA + delta;
 
-alpha = 0.8;
-aSafe = alpha*lastA(:) + (1-alpha)*a;
+alpha = 0.9;
+aSafe = alpha*prevA + (1-alpha)*a;
 end

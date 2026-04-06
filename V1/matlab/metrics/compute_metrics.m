@@ -1,38 +1,31 @@
 function M = compute_metrics(t, y, r)
-% Basic time-domain metrics relative to constant reference r
-
 t = t(:);
 y = y(:);
 
-if numel(r) == 1
+if isscalar(r)
     rVec = r * ones(size(y));
 else
     rVec = r(:);
 end
 
 e = rVec - y;
-ePct = 100 * e / max(abs(r), eps);
+ePct = 100 * e / max(abs(rVec(end)), eps);
 
 M = struct();
 M.finalValue = y(end);
 M.ssError = e(end);
-M.maxOvershootPct = max(0, 100*(max(y)-r)/max(abs(r),eps));
-M.maxUndershootPct = max(0, 100*(r-min(y))/max(abs(r),eps));
+M.maxOvershootPct = max(0, 100*(max(y)-rVec(end))/max(abs(rVec(end)),eps));
+M.maxUndershootPct = max(0, 100*(rVec(end)-min(y))/max(abs(rVec(end)),eps));
 M.IAE = trapz(t, abs(e));
 M.ISE = trapz(t, e.^2);
-
-% settling times
-idx1 = find(abs(ePct) <= 1, 1, 'first');
-idx075 = find(abs(ePct) <= 0.75, 1, 'first');
-idx025 = find(abs(ePct) <= 0.25, 1, 'first');
 
 M.tSettle1Pct   = localSettlingTime(t, ePct, 1.0);
 M.tSettle075Pct = localSettlingTime(t, ePct, 0.75);
 M.tSettle025Pct = localSettlingTime(t, ePct, 0.25);
 
-M.firstHit1Pct   = iff(isempty(idx1), NaN, t(idx1));
-M.firstHit075Pct = iff(isempty(idx075), NaN, t(idx075));
-M.firstHit025Pct = iff(isempty(idx025), NaN, t(idx025));
+M.firstHit1Pct   = localFirstHit(t, ePct, 1.0);
+M.firstHit075Pct = localFirstHit(t, ePct, 0.75);
+M.firstHit025Pct = localFirstHit(t, ePct, 0.25);
 end
 
 function ts = localSettlingTime(t, ePct, band)
@@ -45,10 +38,11 @@ for k = 1:numel(t)
 end
 end
 
-function out = iff(cond, a, b)
-if cond
-    out = a;
+function th = localFirstHit(t, ePct, band)
+idx = find(abs(ePct) <= band, 1, 'first');
+if isempty(idx)
+    th = NaN;
 else
-    out = b;
+    th = t(idx);
 end
 end

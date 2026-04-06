@@ -1,5 +1,4 @@
 function setup_paths()
-% Add project folders to path
 
 thisFile = mfilename('fullpath');
 matlabRoot = fileparts(thisFile);

@@ -1,5 +1,4 @@
 function sig = extract_logged_signals(simOut)
-
 logs = simOut.logsout;
 names = string(logs.getElementNames);
 
@@ -23,7 +22,6 @@ end
 
 function data = getLoggedSignal(logs, names, targetName)
 idx = find(names == targetName, 1);
-
 if isempty(idx)
     warning('Signal "%s" not found in logsout.', targetName);
     data = [];

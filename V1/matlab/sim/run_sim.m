@@ -12,9 +12,7 @@ assignin('base','T_end',cfg.T_end_train);
 [~,~,tuvar] = make_disturbance_profile(caseName, cfg);
 assignin('base','tuvar',tuvar);
 
-% IMPORTANT: create agentObj before loading the model
 ensure_agent_obj(cfg);
-
 load_system(cfg.modelPath);
 
 fprintf('[run_sim] Case: %s\n', caseName);

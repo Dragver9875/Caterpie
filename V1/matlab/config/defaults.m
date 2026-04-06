@@ -24,7 +24,7 @@ cfg.dKcorrMax   = 0.10;
 
 cfg.rpmSetpoint = 900;
 
-cfg.maxEpisodes        = 300;
+cfg.maxEpisodes        = 1000;
 cfg.maxStepsPerEpisode = floor(cfg.T_end_train / cfg.Ts);
 cfg.scoreWindowLength  = 20;
 cfg.stopTrainingValue  = -1000;

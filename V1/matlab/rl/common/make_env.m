@@ -1,7 +1,4 @@
 function env = make_env(cfg)
-% Create rlSimulinkEnv for ProblemState_RL
-
-% IMPORTANT: agentObj must exist before loading model
 ensure_agent_obj(cfg);
 
 if ~bdIsLoaded(cfg.modelName)

@@ -1,12 +1,9 @@
 function agentObj = ensure_agent_obj(cfg)
-% Ensure a valid agentObj exists in base workspace before loading the model
-
 if evalin('base', 'exist(''agentObj'',''var'')')
     agentObj = evalin('base', 'agentObj');
     return;
 end
 
-% Observation and action specs
 obsInfo = rlNumericSpec([cfg.obsDim 1], ...
     'LowerLimit', -inf(cfg.obsDim,1), ...
     'UpperLimit',  inf(cfg.obsDim,1));
@@ -17,10 +14,26 @@ actInfo = rlNumericSpec([cfg.actDim 1], ...
     'UpperLimit', cfg.KcorrMax * ones(cfg.actDim,1));
 actInfo.Name = "gain_corrections";
 
+envStub = [];
+agentObj = make_agent_ppo(cfg, struct( ...
+    'getObservationInfo', @() obsInfo, ...
+    'getActionInfo', @() actInfo)); %#ok<NASGU>
+
+% Fallback: construct directly if the stub trick is not desired
+actorCriticEnv.obsInfo = obsInfo;
+actorCriticEnv.actInfo = actInfo;
+agentObj = localMakeAgent(cfg, actorCriticEnv);
+
+assignin('base', 'agentObj', agentObj);
+end
+
+function agentObj = localMakeAgent(cfg, s)
+obsInfo = s.obsInfo;
+actInfo = s.actInfo;
+
 obsDim = cfg.obsDim;
 actDim = cfg.actDim;
 
-% -------- Actor network --------
 statePath = [
     featureInputLayer(obsDim, Normalization="none", Name="obs")
     fullyConnectedLayer(128, Name="fc1")
@@ -52,7 +65,6 @@ actor = rlContinuousGaussianActor(actorNet, obsInfo, actInfo, ...
     ActionMeanOutputNames="mean_scale", ...
     ActionStandardDeviationOutputNames="std_softplus");
 
-% -------- Critic network --------
 criticNet = [
     featureInputLayer(obsDim, Normalization="none", Name="obs")
     fullyConnectedLayer(128, Name="c_fc1")
@@ -64,19 +76,16 @@ criticNet = [
 
 critic = rlValueFunction(criticNet, obsInfo);
 
-% -------- PPO agent --------
 opt = rlPPOAgentOptions;
 opt.SampleTime = cfg.Ts;
 opt.ExperienceHorizon = 256;
 opt.MiniBatchSize = 256;
 opt.NumEpoch = 3;
 opt.ClipFactor = 0.2;
-opt.EntropyLossWeight = 0.01;
+opt.EntropyLossWeight = 0.005;
 opt.DiscountFactor = 0.99;
 opt.AdvantageEstimateMethod = "gae";
 opt.GAEFactor = 0.95;
 
 agentObj = rlPPOAgent(actor, critic, opt);
-
-assignin('base', 'agentObj', agentObj);
 end

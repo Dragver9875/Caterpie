@@ -18,9 +18,9 @@ cfg.Ki_fixed    = 0.1;
 cfg.obsDim      = 5;
 cfg.actDim      = 2;
 
-cfg.KcorrMin    = 0.5;
-cfg.KcorrMax    = 3.0;
-cfg.dKcorrMax   = 0.10;
+cfg.KcorrMin    = 0.8;
+cfg.KcorrMax    = 1.5;
+cfg.dKcorrMax   = 0.02;
 
 cfg.rpmSetpoint = 900;
 
@@ -33,7 +33,10 @@ cfg.saveAgentDirectory = fullfile(projectRoot,'results','ppo','agents');
 cfg.logDirectory       = fullfile(projectRoot,'results','ppo','logs');
 cfg.plotDirectory      = fullfile(projectRoot,'results','ppo','plots');
 
-cfg.trainCases = {'step_5','step_10','step_15','step_20','large_drop'};
+cfg.trainCases_easy   = {'step_5','step_10'};
+cfg.trainCases_medium = {'step_15','step_20'};
+cfg.trainCases_hard   = {'large_drop'};
+
 cfg.evalCases  = {'step_10','large_drop'};
 
 dirs = {cfg.saveAgentDirectory,cfg.logDirectory,cfg.plotDirectory, ...

@@ -101,6 +101,7 @@ A_t \\
 \dfrac{\dot A_t}{2}
 \end{bmatrix}
 $$
+
 These are passed through a safety shield before entering the PI controller.
 
 ---

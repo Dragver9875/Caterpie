@@ -80,7 +80,7 @@ Planned next stage after stabilizing Workflow 1.
 ### Observation
 The normalized observation vector is:
 
-\$
+\[
 o_t =
 \begin{bmatrix}
 \dfrac{e_t}{900} \\
@@ -89,18 +89,18 @@ A_t \\
 \dfrac{\int e_t \, dt}{3 \cdot 900} \\
 \dfrac{\dot A_t}{2}
 \end{bmatrix}
-\$
+\]
 
 ### Action
 The agent outputs:
 
-\$
+\[
 a_t =
 \begin{bmatrix}
 K_{p,\text{corr}} \\
 K_{i,\text{corr}}
 \end{bmatrix}
-\$
+\]
 
 These are passed through a safety shield before entering the PI controller.
 

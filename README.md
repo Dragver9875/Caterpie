@@ -4,12 +4,44 @@ Adaptive PI gain tuning in **MATLAB/Simulink** using **Reinforcement Learning**.
 
 This project tackles a control problem where a baseline **PI controller** is retained, and an RL agent learns **multiplicative gain correction factors** online:
 
-\[
-K_{p,\text{eff}} = K_{p,\text{fixed}} \cdot K_{p,\text{corr}}
-\]
-\[
-K_{i,\text{eff}} = K_{i,\text{fixed}} \cdot K_{i,\text{corr}}
-\]
+K
+p,eff
+	​
+
+=K
+p,fixed
+	​
+
+⋅K
+p,corr
+	​
+
+𝐾
+𝑖
+,
+eff
+=
+𝐾
+𝑖
+,
+fixed
+⋅
+𝐾
+𝑖
+,
+corr
+K
+i,eff
+	​
+
+=K
+i,fixed
+	​
+
+⋅K
+i,corr
+
+
 
 The goal is to improve disturbance rejection and tracking performance while preserving the interpretability and structure of classical PI control.
 

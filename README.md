@@ -77,31 +77,15 @@ Planned next stage after stabilizing Workflow 1.
 
 ## Observation and Action Design
 
+### Action
+The agent outputs the vector:
+
+`a_t = [Kp_corr, Ki_corr]^T`
+
 ### Observation
 The normalized observation vector is:
 
-\[
-o_t =
-\begin{bmatrix}
-\dfrac{e_t}{900} \\
-A_t \\
-\dfrac{\dot e_t}{2 \cdot 900} \\
-\dfrac{\int e_t \, dt}{3 \cdot 900} \\
-\dfrac{\dot A_t}{2}
-\end{bmatrix}
-\]
-
-### Action
-The agent outputs:
-
-\[
-a_t =
-\begin{bmatrix}
-K_{p,\text{corr}} \\
-K_{i,\text{corr}}
-\end{bmatrix}
-\]
-
+`o_t = [e_t/900, A_t, e_dot_t/(2*900), (∫ e_t dt)/(3*900), A_dot_t/2]^T`
 These are passed through a safety shield before entering the PI controller.
 
 ---

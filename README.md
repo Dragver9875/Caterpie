@@ -1,8 +1,5 @@
 # Caterpie
 
-````markdown
-# Caterpie V1
-
 Adaptive PI gain tuning in **MATLAB/Simulink** using **Reinforcement Learning**.
 
 This project tackles a control problem where a baseline **PI controller** is retained, and an RL agent learns **multiplicative gain correction factors** online:
@@ -40,12 +37,12 @@ The RL agent does **not** replace the controller.
 
 Instead, it acts as a **supervisory gain tuner**:
 
-1. read plant feedback
-2. build an observation vector
-3. predict `Kp_corr` and `Ki_corr`
-4. pass corrections through a safety layer
-5. apply corrected gains to the PI controller
-6. drive the plant and receive new feedback
+1. Read plant feedback
+2. Build an observation vector
+3. Predict `Kp_corr` and `Ki_corr`
+4. Pass corrections through a safety layer
+5. Apply corrected gains to the PI controller
+6. Drive the plant and receive new feedback
 
 ---
 
@@ -178,8 +175,6 @@ Caterpie/
     └── eval/
 ```
 
----
-
 ## Requirements
 
 ### Software
@@ -209,8 +204,7 @@ cfg = defaults();
 simOut = run_sim('step_10');
 sig = extract_logged_signals(simOut);
 
-plot_episode_results(sig.t, sig.y, sig.e, sig.u, sig.Kp_corr, sig.Ki_corr, ...
-    'Sanity Run');
+plot_episode_results(sig.t, sig.y, sig.e, sig.u, sig.Kp_corr, sig.Ki_corr, 'Sanity Run');
 
 M = compute_metrics(sig.t, sig.y, 900);
 disp(M)
@@ -376,5 +370,4 @@ It provides:
 * signal logging and evaluation tools
 * a foundation for SAC and supervised learning extensions
 
-```
 ```

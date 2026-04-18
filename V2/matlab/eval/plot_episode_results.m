@@ -1,4 +1,5 @@
 function plot_episode_results(t, y, e, u, kpCorr, kiCorr, figTitle)
+
 figure('Name', figTitle);
 
 subplot(5,1,1);
@@ -18,12 +19,16 @@ grid on;
 ylabel('Control');
 
 subplot(5,1,4);
-plot(t, kpCorr, 'LineWidth', 1.2);
+if ~isempty(kpCorr)
+    plot(t, kpCorr, 'LineWidth', 1.2);
+end
 grid on;
 ylabel('Kp\_corr');
 
 subplot(5,1,5);
-plot(t, kiCorr, 'LineWidth', 1.2);
+if ~isempty(kiCorr)
+    plot(t, kiCorr, 'LineWidth', 1.2);
+end
 grid on;
 ylabel('Ki\_corr');
 xlabel('Time (s)');

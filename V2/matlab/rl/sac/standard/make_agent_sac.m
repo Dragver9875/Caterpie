@@ -1,43 +1,13 @@
-function agentObj = ensure_agent_obj(cfg)
+function agentObj = make_agent_sac(cfg, env)
 
-if evalin('base', 'exist(''agentObj'',''var'')')
-    agentObj = evalin('base', 'agentObj');
-    return;
-end
+obsInfo = getObservationInfo(env);
+actInfo = getActionInfo(env);
 
-obsInfo = rlNumericSpec([cfg.obsDim 1], ...
-    'LowerLimit', -inf(cfg.obsDim,1), ...
-    'UpperLimit',  inf(cfg.obsDim,1));
-obsInfo.Name = "observations";
-
-actInfo = rlNumericSpec([cfg.actDim 1], ...
-    'LowerLimit', cfg.KcorrMin * ones(cfg.actDim,1), ...
-    'UpperLimit', cfg.KcorrMax * ones(cfg.actDim,1));
-actInfo.Name = "gain_corrections";
-
-agentObj = localMakeDefaultAgent(cfg, obsInfo, actInfo);
-assignin('base', 'agentObj', agentObj);
-end
-
-function agentObj = localMakeDefaultAgent(cfg, obsInfo, actInfo)
-
-obsDim       = cfg.obsDim;
-publicObsDim = cfg.publicObsDim;
-privObsDim   = cfg.privObsDim;
-actDim       = cfg.actDim;
-
-publicSelector = fullyConnectedLayer(publicObsDim, Name="public_selector");
-publicSelector.Weights = [eye(publicObsDim), zeros(publicObsDim, obsDim - publicObsDim)];
-publicSelector.Bias = zeros(publicObsDim,1);
-
-publicSelector.WeightLearnRateFactor = 0;
-publicSelector.BiasLearnRateFactor   = 0;
-publicSelector.WeightL2Factor        = 0;
-publicSelector.BiasL2Factor          = 0;
+obsDim = cfg.obsDim;
+actDim = cfg.actDim;
 
 actorBase = [
     featureInputLayer(obsDim, Normalization="none", Name="obs")
-    publicSelector
     fullyConnectedLayer(128, Name="a_fc1")
     reluLayer(Name="a_relu1")
     fullyConnectedLayer(128, Name="a_fc2")

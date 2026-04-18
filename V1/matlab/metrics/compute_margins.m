@@ -1,5 +1,4 @@
 function G = compute_margins(L)
-% L is open-loop transfer function / ss / zpk object
 
 G = struct();
 try

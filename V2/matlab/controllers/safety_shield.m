@@ -1,4 +1,14 @@
 function aSafe = safety_shield(aRaw, prevA, cfg)
+% Safety shield for gain correction factors
+%
+% Inputs
+%   aRaw  : raw action [2x1] = [Kp_corr; Ki_corr]
+%   prevA : previous safe action [2x1]
+%   cfg   : config struct
+%
+% Output
+%   aSafe : safe action [2x1]
+
 aRaw  = aRaw(:);
 prevA = prevA(:);
 
@@ -11,6 +21,6 @@ delta = a - prevA;
 delta = min(max(delta, -cfg.dKcorrMax), cfg.dKcorrMax);
 a = prevA + delta;
 
-alpha = 0.9;
-aSafe = alpha*prevA + (1-alpha)*a;
+alpha = cfg.smoothAlpha;
+aSafe = alpha * prevA + (1 - alpha) * a;
 end

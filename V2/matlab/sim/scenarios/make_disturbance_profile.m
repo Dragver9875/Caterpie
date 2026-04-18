@@ -1,4 +1,5 @@
 function [t, u, tuvar] = make_disturbance_profile(caseName, cfg)
+
 Ts = cfg.Ts;
 T  = cfg.T_end_train;
 t  = (0:Ts:T)';
@@ -26,6 +27,6 @@ switch lower(string(caseName))
         error('Unknown disturbance case: %s', caseName);
 end
 
-u = min(max(u,0),1);
+u = min(max(u, 0), 1);
 tuvar = [t u];
 end

@@ -1,5 +1,4 @@
 function cfg = defaults()
-% Central configuration for Caterpie V2 (SAC + Privileged Learning)
 
 projectRoot = evalin('base', 'PROJECT_ROOT');
 
@@ -18,7 +17,7 @@ cfg.Kp_fixed    = 0.5;
 cfg.Ki_fixed    = 0.1;
 
 cfg.publicObsDim = 5;
-cfg.privObsDim   = 2;
+cfg.privObsDim   = 1;
 cfg.obsDim       = cfg.publicObsDim + cfg.privObsDim;
 
 cfg.actDim = 2;

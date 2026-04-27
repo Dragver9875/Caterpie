@@ -22,9 +22,9 @@ cfg.obsDim       = cfg.publicObsDim + cfg.privObsDim;
 
 cfg.actDim = 2;
 
-cfg.KcorrMin  = 0.8;
-cfg.KcorrMax  = 1.5;
-cfg.dKcorrMax = 0.02;
+cfg.KcorrMin    = 0.5;
+cfg.KcorrMax    = 3.0;
+cfg.dKcorrMax   = 0.03;
 cfg.smoothAlpha = 0.90;
 
 cfg.rpmSetpoint = 900;

@@ -554,6 +554,6 @@ Caterpie is an adaptive PI gain-tuning framework built in MATLAB/Simulink using 
 
 V1 established the PPO-based RL baseline and verified the Simulink-in-the-loop adaptive PI formulation.
 
-V2 extends the project with SAC and asymmetric privileged learning, where the actor remains deployment-compliant while critics use additional training-time information. The current best V2 controller reaches the 900 target with near-zero steady-state error and zero overshoot, validating the core architecture.
+V2 extends the project with SAC and asymmetric privileged learning, where the actor remains deployment-compliant while critics use additional training-time information.
 
 The next development focus is response-speed improvement while maintaining stability and zero-overshoot behavior.

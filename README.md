@@ -70,7 +70,7 @@ a_t =
 \begin{bmatrix}
 K_{p,\text{corr}} \
 K_{i,\text{corr}}
-\end{bmatrix}
+\end{bmatrix}^{T}
 $$
 
 The PPO policy observes public features derived from:
@@ -88,12 +88,12 @@ The normalised V1 public observation vector is:
 $$
 o_t^{\text{pub}} =
 \begin{bmatrix}
-\dfrac{e_t}{900} \
-A_t \
-\dfrac{\dot e_t}{2 \cdot 900} \
-\dfrac{\int e_t , dt}{3 \cdot 900} \
+\dfrac{e_t}{900} &
+A_t &
+\dfrac{\dot e_t}{2 \cdot 900} &
+\dfrac{\int e_t \, dt}{3 \cdot 900} &
 \dfrac{\dot A_t}{2}
-\end{bmatrix}
+\end{bmatrix}^{T}
 $$
 
 ### V1 Role
@@ -139,7 +139,7 @@ a_t =
 \begin{bmatrix}
 K_{p,\text{corr}} \
 K_{i,\text{corr}}
-\end{bmatrix}
+\end{bmatrix}^{T}
 $$
 
 This makes SAC more suitable than discrete-action RL methods for smooth adaptive gain tuning.
@@ -164,7 +164,7 @@ A_t \
 \dfrac{\dot e_t}{2 \cdot 900} \
 \dfrac{\int e_t , dt}{3 \cdot 900} \
 \dfrac{\dot A_t}{2}
-\end{bmatrix}
+\end{bmatrix}^{T}
 $$
 
 The actor outputs:
@@ -174,7 +174,7 @@ a_t =
 \begin{bmatrix}
 K_{p,\text{corr}} \
 K_{i,\text{corr}}
-\end{bmatrix}
+\end{bmatrix}^{T}
 $$
 
 ## Critics
@@ -186,7 +186,7 @@ o_t^{\text{full}} =
 \begin{bmatrix}
 o_t^{\text{pub}} \
 \dfrac{y_t}{900}
-\end{bmatrix}
+\end{bmatrix}^{T}
 $$
 
 where:
@@ -207,7 +207,7 @@ A_t \
 \dfrac{\int e_t , dt}{3 \cdot 900} \
 \dfrac{\dot A_t}{2} \
 \dfrac{y_t}{900}
-\end{bmatrix}
+\end{bmatrix}^{T}
 $$
 
 The actor internally uses only the first 5 entries. The critics use all 6 entries.
@@ -469,7 +469,7 @@ matlab/metrics/compute_metrics.m
 * privileged SAC teacher structure
 * asymmetric privileged SAC architecture
 * public-only actor with privileged critic
-* normalized observation pipeline
+* normalised observation pipeline
 * safety-bounded gain corrections
 * external gain smoothing
 * near-target gain relaxation
@@ -486,14 +486,6 @@ Asymmetric Privileged SAC
     -> gain smoother
     -> anti-windup PI_ML
     -> applied plant control
-```
-
-## Current Improvement Target
-
-The controller currently tracks accurately with zero overshoot. The next optimisation target is:
-
-```text
-reduce rise time and settling time without reintroducing overshoot
 ```
 
 ---

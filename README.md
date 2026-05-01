@@ -88,12 +88,12 @@ The normalised V1 public observation vector is:
 $$
 o_t^{\text{pub}} =
 \begin{bmatrix}
-\dfrac{e_t}{900} &
-A_t &
-\dfrac{\dot e_t}{2 \cdot 900} &
-\dfrac{\int e_t \, dt}{3 \cdot 900} &
+\dfrac{e_t}{900} \\
+A_t \\
+\dfrac{\dot e_t}{2 \cdot 900} \\
+\dfrac{\int e_t \, dt}{3 \cdot 900} \\
 \dfrac{\dot A_t}{2}
-\end{bmatrix}^{T}
+\end{bmatrix}
 $$
 
 ### V1 Role

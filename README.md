@@ -68,9 +68,9 @@ The agent predicts:
 $$
 a_t =
 \begin{bmatrix}
-K_{p,\text{corr}} \
+K_{p,\text{corr}} \\
 K_{i,\text{corr}}
-\end{bmatrix}^{T}
+\end{bmatrix}
 $$
 
 The PPO policy observes public features derived from:
@@ -137,9 +137,9 @@ SAC is used because the action space is continuous:
 $$
 a_t =
 \begin{bmatrix}
-K_{p,\text{corr}} \
+K_{p,\text{corr}} \\
 K_{i,\text{corr}}
-\end{bmatrix}^{T}
+\end{bmatrix}
 $$
 
 This makes SAC more suitable than discrete-action RL methods for smooth adaptive gain tuning.
@@ -159,12 +159,12 @@ It only receives public observation:
 $$
 o_t^{\text{pub}} =
 \begin{bmatrix}
-\dfrac{e_t}{900} \
-A_t \
-\dfrac{\dot e_t}{2 \cdot 900} \
-\dfrac{\int e_t , dt}{3 \cdot 900} \
+\dfrac{e_t}{900} \\
+A_t \\
+\dfrac{\dot e_t}{2 \cdot 900} \\
+\dfrac{\int e_t \, dt}{3 \cdot 900} \\
 \dfrac{\dot A_t}{2}
-\end{bmatrix}^{T}
+\end{bmatrix}
 $$
 
 The actor outputs:
@@ -172,9 +172,9 @@ The actor outputs:
 $$
 a_t =
 \begin{bmatrix}
-K_{p,\text{corr}} \
+K_{p,\text{corr}} \\
 K_{i,\text{corr}}
-\end{bmatrix}^{T}
+\end{bmatrix}
 $$
 
 ## Critics
@@ -184,9 +184,9 @@ The critics receive the full privileged observation:
 $$
 o_t^{\text{full}} =
 \begin{bmatrix}
-o_t^{\text{pub}} \
+o_t^{\text{pub}} \\
 \dfrac{y_t}{900}
-\end{bmatrix}^{T}
+\end{bmatrix}
 $$
 
 where:
@@ -201,13 +201,13 @@ The full V2 observation is therefore 6-dimensional:
 $$
 o_t =
 \begin{bmatrix}
-\dfrac{e_t}{900} \
-A_t \
-\dfrac{\dot e_t}{2 \cdot 900} \
-\dfrac{\int e_t , dt}{3 \cdot 900} \
-\dfrac{\dot A_t}{2} \
+\dfrac{e_t}{900} \\
+A_t \\
+\dfrac{\dot e_t}{2 \cdot 900} \\
+\dfrac{\int e_t \, dt}{3 \cdot 900} \\
+\dfrac{\dot A_t}{2} \\
 \dfrac{y_t}{900}
-\end{bmatrix}^{T}
+\end{bmatrix}
 $$
 
 The actor internally uses only the first 5 entries. The critics use all 6 entries.
